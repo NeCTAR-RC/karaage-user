@@ -1,0 +1,140 @@
+{% extends "main.html" %}
+{% load url from future %}
+{% load bootstrap3 %}
+{% load gravatar %}
+
+{% block title %}Project{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href='{% url "index" %}'>Home</a>&nbsp;›
+  Projects&nbsp;›
+  {{ project.pid }}
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">{{ project }}</a>
+      </div>
+      {% if project.is_active and user.get_profile in project.leaders.all %}
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="{% url 'kg_application_invite' project.pid %}">
+            <span class="glyphicon glyphicon-plus"></span>
+            Invite User
+          </a>
+        </li>
+        <li>
+          <a href="{% url 'kg_project_edit' project.pid %}">
+            <span class="glyphicon glyphicon-pencil"></span>
+            Edit
+          </a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="container-fluid">
+      <h3>Details</h3>
+      <table class="table"> 
+        <tr><td>Institute:</td><td>{{ project.institute }}</td></tr>
+        <tr><td>Start Date:</td><td>{{ project.start_date|date }}</td></tr>
+        {% if project.end_date %}
+        <tr><td>End Date:</td><td>{{ project.end_date|date }}</td></tr>
+        {% endif %}
+        <tr><td>Description:</td><td>{{ project.description }}</td></tr>
+        <tr><td>Approved:</td>
+        <td>
+          {% if project.is_active %}
+          <span class="glyphicon glyphicon-ok-circle"></span>
+          {% else %}
+          <span class="glyphicon glyphicon-remove-circle"></span>
+          {% endif %}
+        </td></tr>
+        <tr><td>Active:</td>
+        <td>
+          {% if project.is_approved %}
+          <span class="glyphicon glyphicon-ok-circle"></span>
+          {% else %}
+          <span class="glyphicon glyphicon-remove-circle"></span>
+          {% endif %}
+        </td>
+        </tr>
+      </table>
+      </div>
+    </div>
+    
+    <div class="col-xs-6">
+      <h3>Leaders</h3>
+      <ul class="list-group">
+        {% for l in project.leaders.all %}
+        <li class="list-group-item"><a href="{{ l.get_absolute_url }}">{% gravatar l.email 30 %} {{ l }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  
+
+  {% if project.group.members.all %}
+  <div class="module">
+    <h2>Users</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          {% if user.is_authenticated %}
+          <th>Username</th>
+          {% endif %}
+          <th>Name</th>
+          {% if user.is_authenticated %}
+          <th>Email</th>
+          <th>Active</th>
+          {% endif %}
+          {% if request.user.get_profile in project.leaders.all %}
+          <th></th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for person in project.group.members.all %}
+        <tr class="">
+          {% if user.is_authenticated %}
+          <td>
+            <a href="{{ person.get_absolute_url }}">
+              {% gravatar person.email 20 %}
+
+              {{ person.username }}
+            </a>
+          </td>
+          {% endif %}
+          <td>{{ person.get_full_name }}</td>
+          {% if user.is_authenticated %}
+          <td>{{ person.email|urlize }}</td>
+          <td>
+            {% if person.is_active %}
+            <span class="glyphicon glyphicon-ok-circle"></span>
+            {% else %}
+            <span class="glyphicon glyphicon-remove-circle"></span>
+            {% endif %}
+          </td>
+          {% endif %}
+          {% if request.user.get_profile in project.leaders.all %}
+          <td><a class="deletelink" href="{% url 'kg_remove_project_member' project.pid person.username %}">Remove</a></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

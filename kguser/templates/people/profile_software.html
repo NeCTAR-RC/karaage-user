@@ -1,0 +1,22 @@
+{% extends "people/profile_base.html" %}
+{% load url from future %}
+
+
+{% block title %}Licensed Software - My profile{% endblock %}
+{% block profile_title %}Licensed Software{% endblock %}
+
+
+{% block profile_content %}
+<div class="module">
+    <h2>Licensed Software</h2><br />
+    <h3><a href="{% url 'kg_software_list' %}" class="addlink">Add software</a></h3>
+
+    {% if software_list %}
+    {% gen_table software_list %}
+    </table>
+    {% else %}
+    <p>No licensed software.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

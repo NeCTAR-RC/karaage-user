@@ -1,0 +1,56 @@
+{% extends "main.html" %}
+{% load url from future %}
+{% load forms %}{% load filters %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<h1>Projects</h1>
+{% if project_list %}
+{% for ua in person.account_set.all %}
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ ua }}</h3>
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in ua.project_list %}
+        <tr class="{% cycle row1,row2 %}">
+          <td>
+            {% if user in p.leaders.all %}
+            <span class="glyphicon glyphicon-lock" title="Leader"></span>
+            {% else %}
+            <span class="glyphicon"></span>
+            {% endif %}
+            <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
+          </td>
+          <td>{{ p.start_date|date }}</td>
+          <td>{{ p.end_date|date|default:"-" }}</td>
+          <td>
+            {% ifequal p ua.default_project %}
+            <a class="btn btn-default active" href="#">Default</a>
+            {% else %}
+            <a class="btn btn-default"
+               href="{% url 'kg_account_set_default' ua.id p.pid %}?next={% url 'kg_user_profile_projects' %}">
+              Default
+            </a>
+            {% endifequal %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

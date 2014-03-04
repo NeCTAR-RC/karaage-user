@@ -1,0 +1,89 @@
+{% load staticfiles %}
+{% load url from future %}
+{% load bootstrap3 %}
+{% load gravatar %}
+<!DOCTYPE html>
+<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE|default:"en-us" }}"{% endif %} {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+  <head>
+    <title>{% block title %}{% endblock %}&nbsp;|&nbsp;{% block site_name_title %}{% endblock %}</title>
+    <script type="text/javascript">window.__static_prefix__ = "{% filter escapejs %}{% static "" %}{% endfilter %}";</script>
+
+    {% bootstrap_css %}
+    {% block extrastyle %}{% endblock %}
+    <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+    {% block extrahead %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    {% endblock %}
+
+    {% bootstrap_javascript %}
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+  </head>
+  {% load i18n %}
+
+  <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+    {% if not is_popup %}
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">{% block branding %}Karaage{% endblock %}</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'kg_user_profile_projects' %}">Projects</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% block userlinks %}
+            <li><a href="{% url 'kg_user_profile' %}">
+              {% gravatar user.email 20 %}
+              {% if user.is_active %}
+              {% filter force_escape %}{% firstof user.get_short_name user.username %}{% endfilter %}
+              {% else %}
+              {% trans 'Guest' %}
+              {% endif %}
+            </a></li>
+            {% if user.is_active %}
+            <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
+            {% else %}
+            <li><a href="{% url 'login' %}{% url_with_param next=request.path %}">{% trans 'Log in' %}</a></li>
+            {% endif %}
+            {% endblock %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div><!--/.container-fluid -->
+    </div>
+    {% endif %}
+
+    <div class="container">
+
+      <!-- Content -->
+      <div id="container" class="{% block coltype %}colM{% endblock %}">
+        {% block messages %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+        {% endblock messages %}
+
+        {% block pretitle %}{% endblock %}
+        {% block content %}
+        {{ content }}
+        {% endblock %}
+        {% block sidebar %}{% endblock %}
+        <br class="clear" />
+      </div>
+      <!-- END Content -->
+
+      {% block footer %}<div id="footer"></div>{% endblock %}
+    </div>
+    <!-- END Container -->
+
+  </body>
+</html>

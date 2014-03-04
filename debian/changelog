@@ -1,0 +1,118 @@
+karaage3-registration (3.0.1-1) unstable; urgency=low
+
+  * Modifications to work with Karaage 3.0.1
+
+ -- Brian May <bam@debian.org>  Thu, 30 Jan 2014 15:34:43 +1100
+
+karaage3-registration (3.0.0-1) unstable; urgency=low
+
+  * Modifications to work with Karaage 3.0.0
+
+ -- Brian May <bam@debian.org>  Fri, 20 Sep 2013 14:36:41 +1000
+
+karaage-registration (1.1.3-1) unstable; urgency=low
+
+  * Make sure we distribute the karaage-registration.wsgi file.
+  * Another Django 1.5 URL fix.
+
+ -- Brian May <bam@debian.org>  Wed, 26 Jun 2013 16:09:35 +1000
+
+karaage-registration (1.1.2-1) unstable; urgency=low
+
+  * Use triggers for db migration.
+  * Use python2 build method.
+  * Use WSGI instead of mod_python.
+
+ -- Brian May <bam@debian.org>  Tue, 28 May 2013 14:41:41 +1000
+
+karaage-registration (1.1.1-1) stable; urgency=low
+
+  * Fixes for Django 1.5.
+
+ -- Brian May <bam@debian.org>  Fri, 15 Mar 2013 15:34:46 +1100
+
+karaage-registration (1.1.0-1) stable; urgency=low
+
+  * New version for Karaage 2.7.0.
+  * Support for Django 1.5.
+
+ -- Brian May <bam@debian.org>  Mon, 11 Feb 2013 13:28:11 +1100
+
+karaage-registration (1.0.10-1) stable; urgency=low
+
+  * Remove ADMIN_MEDIA_PREFIX for Django 1.4.
+  * Take over packaging from Sam.
+
+ -- Brian May <bam@debian.org>  Fri, 26 Oct 2012 13:22:04 +1100
+
+karaage-registration (1.0.9-1) stable; urgency=low
+
+  * Support django 1.4.
+  * Use django staticfiles.
+
+ -- Brian May <bam@debian.org>  Tue, 16 Oct 2012 09:50:54 +1100
+
+karaage-registration (1.0.8-1) stable; urgency=low
+
+  * Password reset templates, PBS url
+  * KG Javascript included
+  * New WSGI script
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 14 Feb 2012 10:45:40 +1100
+
+karaage-registration (1.0.7-1) testing; urgency=low
+
+  * Minor changes due to karaage changes
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 02 Aug 2011 11:35:10 +1000
+
+karaage-registration (1.0.6-1) stable; urgency=low
+
+  * Allow urls to be overriden locally.
+
+ -- Sam Morrison <sam@vpac.org>  Wed, 25 May 2011 15:02:07 +1000
+
+karaage-registration (1.0.5-1) stable; urgency=low
+
+  * Add apache config to /etc/karaage
+
+ -- Sam Morrison <sam@vpac.org>  Thu, 07 Apr 2011 12:57:12 +1000
+
+karaage-registration (1.0.4-1) testing; urgency=low
+
+  * Minor changes to apache config
+
+ -- Sam Morrison <sam@vpac.org>  Wed, 06 Apr 2011 12:02:42 +1000
+
+karaage-registration (1.0.3-1) testing; urgency=low
+
+  * By default expects to be installed under /users/ in webserver
+  * SAML Login support
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 08 Mar 2011 13:31:03 +1100
+
+karaage-registration (1.0.2-1) stable; urgency=low
+
+  * Base template
+  * XMLRPC interface
+
+ -- Sam Morrison <sam@vpac.org>  Mon, 21 Feb 2011 10:34:43 +1100
+
+karaage-registration (1.0.1-1) testing; urgency=low
+
+  * Use new karaage context processor
+  * Remove AUP URL default as overrides global setting
+
+ -- Sam Morrison <sam@vpac.org>  Wed, 06 Oct 2010 14:41:10 +1100
+
+karaage-registration (1.0-1) testing; urgency=low
+
+  * First official release
+
+ -- Sam Morrison <sam@vpac.org>  Wed, 29 Sep 2010 16:05:25 +1000
+
+karaage-registration (0.1-1) UNRELEASED; urgency=low
+
+  * Initial release.
+
+ -- Sam Morrison <sam@vpac.org>  Tue, 13 Jul 2010 14:34:57 +1000

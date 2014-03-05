@@ -52,6 +52,17 @@
         </div>
       </nav>
       <div class="panel-body">
+        <table>
+        <tr>
+          <td>Default Project: </td>
+          <td>
+            <a href="{{ ua.default_project.get_absolute_url }}">
+              {{ ua.default_project.pid }}
+            </a>
+          </td>
+        </tr>
+        </table>
+
         {% if ua.project_list %}
         <h3>Projects</h3>
         <table class="table table-striped">
@@ -61,7 +72,6 @@
                     <th>Name</th>
                     <th>Institute</th>
                     <th>Leaders</th>
-                    <th>Default</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,10 +80,7 @@
                 <td><a href="{{ p.get_absolute_url }}">{{ p.pid }}</a></td>
                 <td>{{ p.name|truncatewords:"10" }}</td>
                 <td>{{ p.institute }}</td>
-                <td>{% for l in p.leaders.all %}<a href="{{ l.get_absolute_url }}">{{ l }}</a> {% endfor %}</td>
-                <td>{% ifequal p ua.default_project %}
-                <span class="glyphicon glyphicon-ok-circle"></span>
-                {% endifequal %}</td>
+                <td>{% for l in p.leaders.all %}<a href="{{ l.get_absolute_url }}">{{ l }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td>
             </tr>
             {% endfor %}
             </tbody>

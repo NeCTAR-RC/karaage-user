@@ -23,7 +23,7 @@ from django.contrib import messages
 
 from karaage.people.forms import PasswordChangeForm
 from kguser.forms import UsernameChangeForm
-from kguser.util import valid_username
+from kguser.user_improvements import get_improvement, valid_username
 from karaage.common.decorators import login_required
 
 @login_required
@@ -31,14 +31,14 @@ def username_change(request):
 
     # Return the user to the profile page if their username is already
     # valid.
-    if valid_username(request.user):
+    if valid_username(request.user.username):
         return HttpResponseRedirect(reverse('kg_user_profile'))
 
     if request.POST:
         form = UsernameChangeForm(request.POST, instance=request.user)
 
         if form.is_valid():
-            # form.save()
+            form.save()
             messages.success(request, "Username changed successfully")
             return HttpResponseRedirect(reverse('kg_user_profile'))
     else:

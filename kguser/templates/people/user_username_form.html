@@ -1,4 +1,7 @@
 {% extends "main.html" %}
+{% load forms %}
+{% load filters %}
+{% load bootstrap3 %}
 
 {% block title %}Username Change{% endblock %}
 
@@ -6,23 +9,17 @@
 <div class="module">
     <h2>Username Change</h2>
 
-    {% if form.has_errors %}
-    <p class="error">Generic error message</p>
-    {% endif %}
-
     <p>To better support some services you are aloud one username
     change to a compatable name. Your current username is
     <b>{{user.username }}</b>.</p>
 
-    <form action="" method="post">{% csrf_token %}
-        {% load forms %}
-        <div>
-            <fieldset class="module aligned ()">
-              {{ form.non_field_errors }}
-              {% formfield form.username %}
-            </fieldset>
-        </div>
-        <input type="submit" value="Change my username"/>
+    <form action="" role="form" method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% bootstrap_field form.username %}
+      {% buttons %}
+      <button type="submit" class="btn btn-primary">Change my username</button>
+      {% endbuttons %}
     </form>
 </div>
 {% endblock %}

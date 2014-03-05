@@ -27,7 +27,7 @@ class UsernameChangeForm(forms.ModelForm):
         fields = ['username']
 
     username = forms.RegexField(
-        r'^[a-z0-9][a-z0-9.-_]+$', required=True, label=u"Username",
+        r'^[a-z0-9][a-z0-9.\-_]+$', required=True, label=u"Username",
         help_text=u"The username that will be used to authenticate to services.",
         error_messages={'invalid': 'Usernames must start with a lowercase letter or number and can only contain lowercase letters or numbers \'.\', \'-\' or \'_\''})
 
@@ -36,11 +36,10 @@ class UsernameChangeForm(forms.ModelForm):
         if len(username) > 31:
             raise forms.ValidationError(u'Your username can\'t be longer that 31 characters.')
 
-        for ua in person.account_set.filter(date_deleted__isnull=True):
+        for ua in self.instance.account_set.filter(date_deleted__isnull=True):
 
             if ua.username == username:
                 continue
-
             if account_exists(username, ua.machine_category):
                 raise forms.ValidationError(u'This username is already taken.')
 
@@ -52,8 +51,8 @@ class UsernameChangeForm(forms.ModelForm):
         # model.  This isn't ideal because there is no way to roll
         # back the changes to the datastores if one of the changes
         # fails.
-        for ua in person.account_set.filter(date_deleted__isnull=True):
+        for ua in self.instance.account_set.filter(date_deleted__isnull=True):
             ua.username = data['username']
-            ua.save(commit=commit)
+            ua.save()
 
         return super(UsernameChangeForm, self).save(commit=commit)

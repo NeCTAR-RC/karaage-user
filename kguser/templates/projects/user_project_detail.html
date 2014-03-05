@@ -126,9 +126,22 @@
             {% endif %}
           </td>
           {% endif %}
-          {% if request.user.get_profile in project.leaders.all %}
-          <td><a class="deletelink" href="{% url 'kg_remove_project_member' project.pid person.username %}">Remove</a></td>
-          {% endif %}
+          <td>
+            {% if request.user.get_profile in project.leaders.all %}
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Action <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a class="deletelink" href="{% url 'kg_remove_project_member' project.pid person.username %}">
+                    Remove
+                  </a>
+                </td>
+              </ul>
+            </div>
+            {% endif %}
+        </td>
         </tr>
         {% endfor %}
       </tbody>

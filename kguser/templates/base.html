@@ -61,15 +61,9 @@
     {% endif %}
 
     <div class="container">
-
       <!-- Content -->
-      <div id="container" class="{% block coltype %}colM{% endblock %}">
         {% block messages %}
-        {% if messages %}
-        <ul class="messagelist">{% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}</ul>
-        {% endif %}
+        {% bootstrap_messages %}
         {% endblock messages %}
 
         {% block pretitle %}{% endblock %}
@@ -77,8 +71,6 @@
         {{ content }}
         {% endblock %}
         {% block sidebar %}{% endblock %}
-        <br class="clear" />
-      </div>
       <!-- END Content -->
 
       {% block footer %}<div id="footer"></div>{% endblock %}

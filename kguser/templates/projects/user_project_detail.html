@@ -20,7 +20,7 @@
   <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">{{ project }}</a>
+        <a class="navbar-brand" href="#">{{ project.name }}</a>
       </div>
       {% if project.is_active and user.get_profile in project.leaders.all %}
       <ul class="nav navbar-nav navbar-right">
@@ -46,6 +46,7 @@
       <div class="container-fluid">
       <h3>Details</h3>
       <table class="table"> 
+        <tr><td>ID:</td><td>{{ project.pid }}</td></tr>
         <tr><td>Institute:</td><td>{{ project.institute }}</td></tr>
         <tr><td>Start Date:</td><td>{{ project.start_date|date }}</td></tr>
         {% if project.end_date %}

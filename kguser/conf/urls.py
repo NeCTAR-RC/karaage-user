@@ -28,7 +28,7 @@ profile_urlpatterns = patterns('',
 
 
 urlpatterns += patterns('',
-    url(r'^$', 'karaage.legacy.simple.direct_to_template', {'template': 'index.html'}, name='index'),
+    url(r'^$', 'kguser.views.index', name='index'),
     url(r'^aup/$', 'karaage.legacy.simple.direct_to_template', {'template': 'aup.html'}, name="aup"),
     url(r'^persons/', include('karaage.people.urls.user')),
     url(r'^profile/', include(profile_urlpatterns)),

@@ -64,3 +64,9 @@ def personal_details(request):
     return render_to_response('people/profile.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+
+@login_required
+def index(request):
+    return render_to_response('index.html', {'improvement': get_improvement(request.user)},
+                              context_instance=RequestContext(request))

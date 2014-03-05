@@ -35,9 +35,12 @@
         <h2>Projects I lead</h2>
         {% gen_table person.leader.all %}
     </div>
-    {% endif %}	
+    {% endif %}
 
     {% for ua in person.account_set.all %}
+    {% if ua.date_deleted %}
+    <div class="alert alert-warning">Account is disabled.</div>
+    {% endif %}
     <div class="panel panel-default">
       <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
@@ -48,9 +51,6 @@
           </div>
         </div>
       </nav>
-      {% if ua.date_deleted %}
-      <div class="alert alert-warning">Account is disabled.</div>
-      {% endif %}
       <div class="panel-body">
         {% if ua.project_list %}
         <h3>Projects</h3>

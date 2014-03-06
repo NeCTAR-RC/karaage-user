@@ -2,7 +2,7 @@
 # Setup the broken Karaage test suite path
 import sys
 from os import path
-import karaage
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
@@ -11,9 +11,9 @@ import factory
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyText
 from tldap.test import slapd
+
 import karaage.institutes.models
 import karaage.people.models
-
 from karaage.tests.initial_ldap_data import test_ldif
 
 

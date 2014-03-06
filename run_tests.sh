@@ -19,7 +19,7 @@ fi
 # fi
 
 
-./manage.py test $TESTS
+./manage.py test -v 2 $TESTS
 if [ ! $? -eq 0 ]
 then
     RETURN=1

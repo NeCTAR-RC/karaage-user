@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Karaage-User If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponseForbidden
@@ -24,8 +26,10 @@ from django.contrib import messages
 from karaage.people.forms import PasswordChangeForm
 from karaage.projects.models import Project
 from karaage.machines.models import Account
-from kguser.forms import UsernameChangeForm
-from kguser.user_improvements import get_improvement, valid_username
+from kguser.forms import UsernameChangeForm, ProjectNameForm
+from kguser.user_improvements import get_improvement as get_user_improvements, valid_username
+from kguser.project_improvements import (get_improvement as get_project_improvements,
+                                         is_renamed as project_is_renamed)
 from karaage.common.decorators import login_required
 from karaage.common import log
 
@@ -86,6 +90,39 @@ def make_project_default(request, account_id, project_id):
 
 
 @login_required
+def confirm_project_name(request, project_id):
+    project = get_object_or_404(Project, pid=project_id)
+
+    # Return the user to the profile page if their project has already
+    # had it's name confirmed.
+    if project_is_renamed(project):
+        return HttpResponseRedirect(reverse('kg_project_detail', kwargs={'project_id': project.pid}))
+
+    # TODO (RS) this is bullshit
+    if not request.user in project.leaders.all():
+        return HttpResponseForbidden('<h1>Access Denied</h1>')
+
+    if request.POST:
+        form = ProjectNameForm(request.POST, instance=project)
+
+        if form.is_valid():
+            form.save()
+            renamed = project.has_been_renamed.get()
+            renamed.renamed = True
+            renamed.save()
+            messages.success(request, "Project name confirmed.")
+            return HttpResponseRedirect(reverse('kg_project_detail', kwargs={'project_id': project.pid}))
+    else:
+        initial_pid = project.pid.lower()
+        initial_pid = re.sub('[^a-z0-9.\-_]', '_', initial_pid)
+        form = ProjectNameForm(instance=project, initial={'pid': initial_pid})
+
+    return render_to_response('projects/project_confirmation_form.html',
+                              {'form': form, 'project': project},
+                              context_instance=RequestContext(request))
+
+
+@login_required
 def index(request):
-    return render_to_response('index.html', {'improvement': get_improvement(request.user)},
+    return render_to_response('index.html', {},
                               context_instance=RequestContext(request))

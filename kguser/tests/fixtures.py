@@ -26,6 +26,7 @@ import karaage.institutes.models
 import karaage.people.models
 import karaage.projects.models
 import karaage.machines.models
+import kguser.models
 
 
 class InstituteFactory(DjangoModelFactory):
@@ -55,6 +56,7 @@ class ProjectFactory(DjangoModelFactory):
     name = factory.LazyAttribute(lambda a: a.pid.title())
     institute = factory.SubFactory(InstituteFactory)
     is_approved = True
+    approved_by = factory.SubFactory(PersonFactory)
     is_active = True
 
 
@@ -84,3 +86,10 @@ class AccountFactory(DjangoModelFactory):
     date_created = factory.LazyAttribute(lambda a: datetime.datetime.today())
     default_project = factory.SubFactory(ProjectFactory)
     shell = settings.DEFAULT_SHELL
+
+class ProjectRenamedFactory(DjangoModelFactory):
+    FACTORY_FOR = kguser.models.ProjectRenamed
+    FACTORY_DJANGO_GET_OR_CREATE = ('project',)
+
+    project = factory.SubFactory(ProjectFactory)
+    renamed = False

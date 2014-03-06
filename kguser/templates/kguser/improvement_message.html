@@ -1,0 +1,11 @@
+{% if title %}
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ title }}</h3>
+  </div>
+  <div class="panel-body">
+    {{ description }}
+    <a class="btn btn-sm btn-default" href="{{ action_url }}">{{ action }}</a>
+  </div>
+</div>
+{% endif %}

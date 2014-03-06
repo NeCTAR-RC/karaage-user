@@ -20,6 +20,7 @@ from django.conf import settings
 
 from karaage.datastores import account_exists
 from karaage.people.models import Person
+from karaage.projects.models import Project
 
 class UsernameChangeForm(forms.ModelForm):
     class Meta:
@@ -56,3 +57,23 @@ class UsernameChangeForm(forms.ModelForm):
             ua.save()
 
         return super(UsernameChangeForm, self).save(commit=commit)
+
+
+
+class ProjectNameForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['pid', 'name']
+
+    name = forms.CharField(label='Project Title', widget=forms.TextInput(attrs={'size': 60}))
+    pid = forms.RegexField(
+        r'^[a-z0-9][a-z0-9.\-_]+$', required=True, label=u"Project Id",
+        help_text=u"The simplified name of the project that will be used as an identifier.",
+        error_messages={'invalid': 'Project ids must start with a lowercase letter or number and can only contain lowercase letters or numbers \'.\', \'-\' or \'_\''})
+
+    def clean_pid(self):
+        pid = self.cleaned_data['pid']
+        if len(pid) > 20:
+            raise forms.ValidationError(u'Your project id can\'t be longer that 20 characters.')
+
+        return pid

@@ -1,8 +1,9 @@
 {% extends "main.html" %}
+{% load kguser_messages %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{{ improvement }}
+{% improvement_message user %}
 <div class="row">
   <div class="col-md-6">
     <h1>Welcome to Karaage</h1>

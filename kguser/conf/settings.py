@@ -32,7 +32,7 @@ BOOTSTRAP3 = {
     'set_required': True,
 }
 
-INSTALLED_APPS = INSTALLED_APPS + ('bootstrap3', 'django_gravatar',)
+INSTALLED_APPS = INSTALLED_APPS + ('kguser', 'bootstrap3', 'django_gravatar',)
 
 import sys
 if 'test' in sys.argv:

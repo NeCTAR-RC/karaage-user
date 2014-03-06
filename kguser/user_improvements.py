@@ -20,18 +20,6 @@ import re
 from django.core.urlresolvers import reverse
 from django.utils.safestring import SafeString
 
-TEMPLATE = """
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">%(title)s</h3>
-  </div>
-  <div class="panel-body">
-    %(description)s
-    <a class="btn btn-default" href="%(action_url)s">%(action)s</a>
-  </div>
-</div>
-"""
-
 def valid_username(username):
     """Return True if the users username is a valid one."""
     return bool(re.match(r'^[a-z0-9][a-z0-9.\-_]{0,30}$', username))
@@ -46,5 +34,10 @@ def check_username(person):
 
 def get_improvement(person):
     if check_username(person):
-        return SafeString(TEMPLATE % check_username(person))
-    return ""
+        return check_username(person)
+    return None
+
+def has_improvement(person):
+    if check_username(person):
+        return True
+    return False

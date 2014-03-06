@@ -1,0 +1,23 @@
+{% extends "main.html" %}
+{% load forms %}
+{% load filters %}
+{% load bootstrap3 %}
+
+{% block title %}Project name confirmation{% endblock %}
+
+{% block content %}
+<h2>Project Name Confirmation</h2>
+
+<p>To better support some services you are allowed one opportunity 
+change to a compatible name.</p>
+
+<form action="" role="form" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {% bootstrap_field form.name %}
+  {% bootstrap_field form.pid %}
+  {% buttons %}
+  <button type="submit" class="btn btn-primary">Confirm project identifiers</button>
+  {% endbuttons %}
+</form>
+{% endblock %}

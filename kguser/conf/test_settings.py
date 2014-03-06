@@ -1,5 +1,4 @@
 # Django settings for grunt project.
-from karaage.conf.defaults import *
 from os import uname
 
 AJAX_LOOKUP_CHANNELS = {
@@ -81,8 +80,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 TIME_ZONE = 'Australia/Melbourne'
 LANGUAGE_CODE = 'en-au'
-
-ROOT_URLCONF = 'urls'
 
 GRAPH_ROOT = '/tmp/graphs/'
 GRAPH_TMP = '/tmp/matplotlib/'

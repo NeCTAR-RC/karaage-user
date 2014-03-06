@@ -14,7 +14,14 @@
 
 {% block content %}
 <div id="content-main">
-    <h1>{{ person }}</h1>
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h4 class="navbar-text">{{ person }}</h4>
+      </div>
+    </div>
+  </nav>
+
     <table class="table">
         <tr><td>Email:</td><td>{{ person.email|urlize }}</td></tr>
         <tr><td>Position:</td><td>{{ person.position|default:"" }}</td></tr>
@@ -49,20 +56,15 @@
               {{ ua.username }} on {{ ua.machine_category }}
             </p>
           </div>
-        </div>
-      </nav>
-      <div class="panel-body">
-        <table>
-        <tr>
-          <td>Default Project: </td>
-          <td>
+          <span class="navbar-text navbar-right">
+            Default Project:
             <a href="{{ ua.default_project.get_absolute_url }}">
               {{ ua.default_project.pid }}
             </a>
-          </td>
-        </tr>
-        </table>
-
+          </span>
+        </div>
+      </nav>
+      <div class="panel-body">
         {% if ua.project_list %}
         <h3>Projects</h3>
         <table class="table table-striped">

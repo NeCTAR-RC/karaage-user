@@ -48,9 +48,9 @@
         <tr class="{% cycle row1,row2 %}">
           <td>
             {% if user in p.leaders.all %}
-            <span class="glyphicon glyphicon-user" title="Leader"></span>
+            <span class="glyphicon glyphicon-user" title="Your a project leader"></span>
             {% else %}
-            <span class="glyphicon"></span>
+            <span class="glyphicon" style="width: 14px;"></span>
             {% endif %}
             <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
           </td>

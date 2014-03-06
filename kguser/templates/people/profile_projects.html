@@ -19,15 +19,19 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Default: {{ ua.default_project.name }} <b class="caret"></b></a>
           <ul class="dropdown-menu">
             {% for p in ua.project_list %}
-            <li>
-            {% ifequal p ua.default_project %}
-            {% else %}
-            <a
-               href="{% url 'kg_account_set_default' ua.id p.pid %}?next={% url 'kg_user_profile_projects' %}">
-              {{ p.name }}
-            </a>
-            {% endifequal %}
+            {% ifnotequal p ua.default_project %}
+            <li >
+              <form id="{{ ua.username }}-{{ p.pid }}"
+                    method="POST"
+                    action="{% url 'kg_account_set_default' ua.id p.pid %}">
+                {% csrf_token %}
+                <input type="hidden" value="{% url 'kg_user_profile_projects' %}" name="next"/>
+              </form>
+              <a onclick="$('#{{ ua.username }}-{{ p.pid }}').submit()" href="#">
+                {{ p.name }}
+              </a>
             </li>
+            {% endifnotequal %}
            {% endfor %}
           </ul>
         </li>

@@ -22,9 +22,12 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 from karaage.people.forms import PasswordChangeForm
+from karaage.projects.models import Project
+from karaage.machines.models import Account
 from kguser.forms import UsernameChangeForm
 from kguser.user_improvements import get_improvement, valid_username
 from karaage.common.decorators import login_required
+from karaage.common import log
 
 @login_required
 def username_change(request):
@@ -64,6 +67,22 @@ def personal_details(request):
     return render_to_response('people/profile.html',
                               {'form': form},
                               context_instance=RequestContext(request))
+
+
+@login_required
+def make_project_default(request, account_id, project_id):
+    person = request.user
+    account = get_object_or_404(Account, pk=account_id, person=person)
+    project = get_object_or_404(Project, pid=project_id)
+
+    if request.method != 'POST':
+        return HttpResponseRedirect(reverse('kg_user_profile'))
+
+    account.default_project = project
+    account.save()
+    log(request.user, account, 2, 'Changed default project to %s' % project.pid)
+    messages.success(request, "Default project changed succesfully")
+    return HttpResponseRedirect(request.POST.get('next', reverse('kg_user_profile')))
 
 
 @login_required

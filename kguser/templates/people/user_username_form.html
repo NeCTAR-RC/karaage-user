@@ -6,20 +6,18 @@
 {% block title %}Username Change{% endblock %}
 
 {% block content %}
-<div class="module">
-    <h2>Username Change</h2>
+<h2>Username Change</h2>
 
-    <p>To better support some services you are aloud one username
-    change to a compatable name. Your current username is
-    <b>{{user.username }}</b>.</p>
+<p>To better support some services you are aloud one username
+change to a compatable name. Your current username is
+<b>{{user.username }}</b>.</p>
 
-    <form action="" role="form" method="post">
-      {% csrf_token %}
-      {{ form.non_field_errors }}
-      {% bootstrap_field form.username %}
-      {% buttons %}
-      <button type="submit" class="btn btn-primary">Change my username</button>
-      {% endbuttons %}
-    </form>
-</div>
+<form action="" role="form" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {% bootstrap_field form.username %}
+  {% buttons %}
+  <button type="submit" class="btn btn-primary">Change my username</button>
+  {% endbuttons %}
+</form>
 {% endblock %}

@@ -41,7 +41,14 @@
 
     <form action="" method="POST" role="form">
       {% csrf_token %}
-      {{ form.non_field_errors }}
+
+      {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% endif %}
       {% bootstrap_field form.old %}
       {% bootstrap_field form.new1 %}
       {% bootstrap_field form.new2 %}

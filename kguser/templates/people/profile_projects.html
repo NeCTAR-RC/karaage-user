@@ -16,23 +16,26 @@
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Default: {{ ua.default_project.name }} <b class="caret"></b></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <strong>Default:</strong>
+            {{ ua.default_project.name }} <b class="caret"></b>
+          </a>
           <ul class="dropdown-menu">
             {% for p in ua.project_list %}
             {% ifnotequal p ua.default_project %}
             <li >
-              <form id="{{ ua.username }}-{{ p.pid }}"
+              <form id="{{ ua.id }}-{{ p.id }}"
                     method="POST"
                     action="{% url 'kg_account_set_default' ua.id p.pid %}">
                 {% csrf_token %}
                 <input type="hidden" value="{% url 'kg_user_profile_projects' %}" name="next"/>
               </form>
-              <a onclick="$('#{{ ua.username }}-{{ p.pid }}').submit()" href="#">
+              <a onclick="$('#{{ ua.id }}-{{ p.id }}').submit()" href="#">
                 {{ p.name }}
               </a>
             </li>
             {% endifnotequal %}
-           {% endfor %}
+            {% endfor %}
           </ul>
         </li>
       </ul>

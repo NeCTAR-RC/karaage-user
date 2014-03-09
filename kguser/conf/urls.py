@@ -42,7 +42,6 @@ urlpatterns += patterns('',
     url(r'^applications/', include('karaage.applications.urls.user')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^ajax_selects/', include('ajax_select.urls')),
-    url(r'^xmlrpc/$', 'django_xmlrpc.views.handle_xmlrpc',),
 )
 
 if settings.DEBUG:

@@ -1,6 +1,9 @@
 {% extends "main.html" %}
 {% load url from future %}
-{% load forms %}{% load filters %}
+{% load forms %}
+{% load filters %}
+{% load kguser_messages %}
+{% load kguser_projects %}
 
 {% block title %}Projects{% endblock %}
 
@@ -12,7 +15,7 @@
   <nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <p class="navbar-text">{{ ua }}</p>
+        <p class="navbar-text"><strong>{{ ua }}</strong></p>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -41,33 +44,63 @@
       </ul>
     </div>
   </nav>
+  {% if ua.project_list|project_leader:user %}
   <div class="panel-body">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for p in ua.project_list %}
-        <tr class="{% cycle row1,row2 %}">
-          <td>
-            {% if user in p.leaders.all %}
-            <span class="glyphicon glyphicon-user" title="Your a project leader"></span>
-            {% else %}
-            <span class="glyphicon" style="width: 14px;"></span>
-            {% endif %}
-            <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
-          </td>
-          <td>{{ p.start_date|date }}</td>
-          <td>{{ p.end_date|date|default:"-" }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <h4>Your Projects</h4>
   </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in ua.project_list|project_leader:user %}
+      <tr class="{% cycle row1,row2 %}">
+        <td>
+          <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
+          {% if user in p.leaders.all and p|has_improvement %}
+          <span class="glyphicon glyphicon-exclamation-sign" title="This project has some pending action."></span>
+          {% endif %}
+        </td>
+        <td>{{ p.start_date|date }}</td>
+        <td>{{ p.end_date|date|default:"-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <hr/>
+
+  {% if ua.project_list|project_member:user %}
+  <div class="panel-body">
+    <h4>Projects you work on</h4>
+
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in ua.project_list|project_member:user %}
+      <tr class="{% cycle row1,row2 %}">
+        <td>
+          <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
+        </td>
+        <td>{{ p.start_date|date }}</td>
+        <td>{{ p.end_date|date|default:"-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
 </div>
 {% endfor %}
 {% endif %}

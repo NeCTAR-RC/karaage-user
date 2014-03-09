@@ -4,25 +4,14 @@
 {% load gravatar %}
 {% load kguser_messages %}
 
-{% block title %}Project{% endblock %}
-
-
-{% block breadcrumbs %}
-<div class="breadcrumbs">
-  <a href='{% url "index" %}'>Home</a>&nbsp;›
-  Projects&nbsp;›
-  {{ project.pid }}
-</div>
-{% endblock %}
-
+{% block title %}{{ project.name }} | Project{% endblock %}
 
 {% block content %}
 {% improvement_message project %}
+<h1>{{ project.name }}</h1>
+
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <h4 class="navbar-text">{{ project.name }}</h4>
-    </div>
     {% if project.is_active and user.get_profile in project.leaders.all %}
     <ul class="nav navbar-nav navbar-right">
       <li>
@@ -79,11 +68,19 @@
 
   <div class="col-md-6">
     <h3>Leaders</h3>
-    <ul class="list-group">
+    <div class="panel panel-default">
+    <table>
+    <tbody>
       {% for l in project.leaders.all %}
-      <li class="list-group-item"><a href="{{ l.get_absolute_url }}">{% gravatar l.email 30 %} {{ l }}</a></li>
+      <tr>
+        <td>
+          <a href="{{ l.get_absolute_url }}">{% gravatar l.email 30 %} {{ l }}</a>
+        </td>
+      </tr>
       {% endfor %}
-    </ul>
+    </tbody>
+    </table>
+    </div>
   </div>
 </div>
 
@@ -119,7 +116,7 @@
         {% if request.user.get_profile in project.leaders.all %}
         <td class="text-right">
           <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
               Action <span class="caret"></span>
             </button>
             <ul class="dropdown-menu text-left" role="menu">

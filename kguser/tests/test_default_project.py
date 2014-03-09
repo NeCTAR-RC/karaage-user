@@ -15,8 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Karaage-User If not, see <http://www.gnu.org/licenses/>.
 
-import sys
 from os import path
+import re
+import sys
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -27,7 +28,7 @@ from karaage.projects.utils import add_user_to_project
 
 from fixtures import AccountFactory, ProjectFactory, ProjectQuotaFactory
 
-class UsernameChangeTestCase(TestCase):
+class ChangeDefaultProjectTestCase(TestCase):
     def setUp(self):
         server = slapd.Slapd()
         server.set_port(38911)
@@ -47,7 +48,7 @@ class UsernameChangeTestCase(TestCase):
         project = ProjectFactory()
         ProjectQuotaFactory(project=project, machine_category=account.machine_category)
 
-        # TODO (RS) why the hell isn't an account a member of the
+        # TODO (RS) why the hell isn't this account a member of the
         # default project?
         add_user_to_project(account.person, project_orig)
         add_user_to_project(account.person, project)
@@ -55,11 +56,13 @@ class UsernameChangeTestCase(TestCase):
         self.client.login(username=account.person.username, password='test')
         response = self.client.get(reverse('kg_user_profile_projects'))
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Default: %s' % project_orig.name in response.content)
+        self.assertTrue(re.search(r'<strong>Default:</strong>[\s]+%s' % project_orig.name,
+                                  response.content, re.MULTILINE))
 
         response = self.client.post(reverse('kg_account_set_default', args=(account.id, project.pid)),
                                     {'next': reverse('kg_user_profile_projects')},
                                     follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.redirect_chain, [('http://testserver/profile/projects/', 302)])
-        self.assertTrue('Default: %s' % project.name in response.content)
+        self.assertTrue(re.search(r'<strong>Default:</strong>[\s]+%s' % project.name,
+                                  response.content, re.MULTILINE))

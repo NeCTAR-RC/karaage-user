@@ -6,9 +6,6 @@ from os import path
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
-import factory
-from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyText
 from tldap.test import slapd
 from karaage.tests.initial_ldap_data import test_ldif
 

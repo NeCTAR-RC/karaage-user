@@ -3,31 +3,16 @@
 import sys
 from os import path
 
-from django.test import TestCase
+from unit import TestCase
 from django.core.urlresolvers import reverse
-from django.core.management import call_command
-import factory
 from factory.django import DjangoModelFactory
-from factory.fuzzy import FuzzyText
-from tldap.test import slapd
-from karaage.tests.initial_ldap_data import test_ldif
+from karaage.projects.models import Project
 
 from fixtures import (PersonFactory, AccountFactory,
                       ProjectQuotaFactory, ProjectRenamedFactory)
 
 
 class ProjectRenameTestCase(TestCase):
-    def setUp(self):
-        server = slapd.Slapd()
-        server.set_port(38911)
-        server.start()
-        server.ldapadd("\n".join(test_ldif)+"\n")
-        call_command('loaddata', 'karaage_data', **{'verbosity': 0})
-
-        self.server = server
-
-    def tearDown(self):
-        self.server.stop()
 
     def test_project_renamed(self):
         """Create a new project that has been renamed correctly."""
@@ -75,6 +60,7 @@ class ProjectRenameTestCase(TestCase):
         project.save()
 
         self.client.login(username=person.username, password='test')
+        self.resetDatastore()
 
         # A user should be able to visit the project name change page
         # if the project is part of the initial migration and it
@@ -82,6 +68,7 @@ class ProjectRenameTestCase(TestCase):
         response = self.client.get(reverse('confirm_project_name',
                                            kwargs={'project_id': project.pid}))
         self.assertEqual(response.status_code, 200)
+        self.assertFalse(self.datastore.save_project.called)
 
         # Submitting an empty form should result in the same page
         # being displayed again.
@@ -90,6 +77,7 @@ class ProjectRenameTestCase(TestCase):
                                     {'name': '',
                                      'pid': ''})
         self.assertEqual(response.status_code, 200)
+        self.assertFalse(self.datastore.save_project.called)
 
         # After changing a project name the user should be redirected to
         # the new project page.
@@ -100,3 +88,10 @@ class ProjectRenameTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.redirect_chain,
                          [('http://testserver/projects/my_project/', 302)])
+        self.datastore.save_project.assert_called_with(project)
+
+        project = Project.objects.get(id=project.id)
+        self.assertEqual(project.name, 'My Project')
+        self.assertEqual(project.pid, 'my_project')
+        self.assertEqual(project.group.name, 'my_project')
+        self.assertTrue(project.has_been_renamed.get().renamed)

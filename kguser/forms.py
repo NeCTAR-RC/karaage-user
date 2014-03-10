@@ -77,3 +77,10 @@ class ProjectNameForm(forms.ModelForm):
             raise forms.ValidationError(u'Your project id can\'t be longer that 20 characters.')
 
         return pid
+
+    def save(self):
+        group = self.instance.group
+        group.name = self.cleaned_data['pid']
+        group.save()
+
+        return super(ProjectNameForm, self).save()

@@ -14,14 +14,3 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Karaage-User If not, see <http://www.gnu.org/licenses/>.
-
-
-from __future__ import unicode_literals
-
-from django.db import models
-from karaage.projects.models import Project
-
-
-class ProjectRenamed(models.Model):
-    project = models.ForeignKey(Project, related_name='has_been_renamed')
-    renamed = models.BooleanField(default=False)

@@ -26,6 +26,8 @@ import karaage.institutes.models
 import karaage.people.models
 import karaage.projects.models
 import karaage.machines.models
+import kgkeystone.models
+
 import kguser.models
 
 
@@ -88,7 +90,7 @@ class AccountFactory(DjangoModelFactory):
     shell = settings.DEFAULT_SHELL
 
 class ProjectRenamedFactory(DjangoModelFactory):
-    FACTORY_FOR = kguser.models.ProjectRenamed
+    FACTORY_FOR = kgkeystone.models.ProjectRenamed
     FACTORY_DJANGO_GET_OR_CREATE = ('project',)
 
     project = factory.SubFactory(ProjectFactory)

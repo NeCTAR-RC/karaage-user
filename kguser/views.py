@@ -123,6 +123,21 @@ def confirm_project_name(request, project_id):
 
 
 @login_required
+def profile(request):
+
+    person = request.user
+    project_list = person.projects.all()
+    leader_project_list = []
+
+    if person.is_leader():
+        leader_project_list = Project.objects.filter(leaders=person, is_active=True)
+
+    return render_to_response('people/profile_projects.html',
+            {'person': person, 'project_list': project_list,
+                'leader_project_list': leader_project_list},
+            context_instance=RequestContext(request))
+
+
 def index(request):
     return render_to_response('index.html', {},
                               context_instance=RequestContext(request))

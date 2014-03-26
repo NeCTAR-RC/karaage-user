@@ -18,9 +18,6 @@ ALLOW_REGISTRATIONS = False
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-TEMPLATE_CONTEXT_PROCESSORS += ('karaage.common.context_processors.registration',)
-
-
 BOOTSTRAP3 = {
     'jquery_url': '//code.jquery.com/jquery.min.js',
     'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/',

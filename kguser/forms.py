@@ -18,7 +18,7 @@
 from django import forms
 from django.conf import settings
 
-from karaage.datastores import account_exists
+from karaage.datastores import machine_category_account_exists
 from karaage.people.models import Person
 from karaage.projects.models import Project
 

@@ -1,6 +1,8 @@
 from django.conf.urls import *
 from django.conf import settings
 from django.contrib import admin
+from karaage.common import get_urls
+
 
 
 urlpatterns = patterns('',
@@ -14,35 +16,32 @@ except IOError:
 profile_urlpatterns = patterns('',
     url(r'^$', 'kguser.views.personal_details', name='kg_user_profile'),
     url(r'^username', 'kguser.views.username_change', name='username_change'),
-    url(r'^accounts/$', 'karaage.people.views.user.profile_accounts', name='kg_user_profile_accounts'),
-    url(r'^projects/$', 'karaage.people.views.user.profile_projects', name='kg_user_profile_projects'),
-    url(r'^edit/$', 'karaage.people.views.user.edit_profile', name='kg_profile_edit'),
-
-    url(r'^slogin/$', 'karaage.people.views.user.saml_login', name='login_saml'),
-    url(r'^saml/$', 'karaage.people.views.user.saml_details', name='saml_details'),
-    url(r'^login/$', 'karaage.people.views.user.login', name='login'),
-    url(r'^login/(?P<username>%s)/$' % settings.USERNAME_VALIDATION_RE, 'karaage.people.views.user.login', name="login"),
-    url(r'^logout/$', 'karaage.people.views.user.logout', name='logout'),
-    url(r'^password/$', 'karaage.people.views.user.password_change', name='password_change'),
+    url(r'^projects/$', 'kguser.views.profile', name='kg_user_profile_projects'),
+    url(r'^edit/$', 'karaage.people.views.profile.edit_profile', name='kg_profile_edit'),
+    url(r'^login/(?P<username>%s)/$' % settings.USERNAME_VALIDATION_RE, 'karaage.people.views.profile.login', name="login"),
+    url(r'^logout/$', 'karaage.common.views.profile.logout', name='logout'),
 )
 
+for urls in get_urls("profile_urlpatterns"):
+    profile_urlpatterns += urls
+else:
+    del urls
 
 urlpatterns += patterns('',
     url(r'^$', 'kguser.views.index', name='index'),
-    url(r'^aup/$', 'karaage.legacy.simple.direct_to_template', {'template': 'aup.html'}, name="aup"),
     url(r'^persons/accounts/(?P<account_id>\d+)/makedefault/(?P<project_id>%s)/$' % settings.PROJECT_VALIDATION_RE,
         'kguser.views.make_project_default', name='kg_account_set_default'),
-    url(r'^persons/', include('karaage.people.urls.user')),
     url(r'^profile/', include(profile_urlpatterns)),
-    url(r'^institutes/', include('karaage.institutes.urls.user')),
     url(r'^projects/(?P<project_id>%s)/confirm_name/' % settings.PROJECT_VALIDATION_RE,
         'kguser.views.confirm_project_name', name='confirm_project_name'),
-    url(r'^projects/', include('karaage.projects.urls.user')),
-    url(r'^software/', include('karaage.software.urls.user')),
-    url(r'^applications/', include('karaage.applications.urls.user')),
+    url(r'^xmlrpc/$', 'django_xmlrpc.views.handle_xmlrpc',),
     url(r'^captcha/', include('captcha.urls')),
-    url(r'^ajax_selects/', include('ajax_select.urls')),
+    url(r'^lookup/', include('ajax_select.urls')),
 )
+
+for urls in get_urls("urlpatterns"):
+    urlpatterns += urls
+    del urls
 
 if settings.DEBUG:
     urlpatterns += patterns('',

@@ -15,7 +15,7 @@
   <nav class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <p class="navbar-text"><strong>{{ ua }}</strong></p>
+        <p class="navbar-text"><strong>{{ ua.username }}</strong></p>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -46,7 +46,7 @@
   </nav>
   {% if ua.project_list|project_leader:user %}
   <div class="panel-body">
-    <h4>Your Projects</h4>
+    <h4>Projects you lead</h4>
   </div>
   <table class="table">
     <thead>

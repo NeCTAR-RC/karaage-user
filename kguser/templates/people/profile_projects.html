@@ -8,40 +8,49 @@
 {% block title %}Projects{% endblock %}
 
 {% block content %}
-<h1>Projects</h1>
+<h1>Your Projects</h1>
 {% if project_list %}
 {% for ua in person.account_set.all %}
 <div class="panel panel-default">
-  <nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <nav id="local-nav"  class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
-        <p class="navbar-text"><strong>{{ ua.username }}</strong></p>
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#local-nav .navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand">{{ ua.username }}</span>
       </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <strong>Default:</strong>
-            {{ ua.default_project.name }} <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            {% for p in ua.project_list %}
-            {% ifnotequal p ua.default_project %}
-            <li >
-              <form id="{{ ua.id }}-{{ p.id }}"
-                    method="POST"
-                    action="{% url 'kg_account_set_default' ua.id p.pid %}">
-                {% csrf_token %}
-                <input type="hidden" value="{% url 'kg_user_profile_projects' %}" name="next"/>
-              </form>
-              <a onclick="$('#{{ ua.id }}-{{ p.id }}').submit()" href="#">
-                {{ p.name }}
-              </a>
-            </li>
-            {% endifnotequal %}
-            {% endfor %}
-          </ul>
-        </li>
-      </ul>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <strong>Default:</strong>
+              {{ ua.default_project.name }} <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              {% for p in ua.project_list %}
+              {% ifnotequal p ua.default_project %}
+              <li >
+                <form id="{{ ua.id }}-{{ p.id }}"
+                      method="POST"
+                      action="{% url 'kg_account_set_default' ua.id p.pid %}">
+                  {% csrf_token %}
+                  <input type="hidden" value="{% url 'kg_user_profile_projects' %}" name="next"/>
+                </form>
+                <a onclick="$('#{{ ua.id }}-{{ p.id }}').submit()" href="#">
+                  {{ p.name }}
+                </a>
+              </li>
+              {% endifnotequal %}
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
   {% if ua.project_list|lead_by:user %}

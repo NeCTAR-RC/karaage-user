@@ -17,7 +17,6 @@
 
 
 from django import template
-from django.template.loader import get_template
 import karaage.projects.models
 import karaage.people.models
 
@@ -26,7 +25,9 @@ from kguser.user_improvements import (get_improvement as get_user_improvements,
 from kguser.project_improvements import (get_improvement as get_project_improvements,
                                          has_improvement as has_project_improvements)
 
+
 register = template.Library()
+
 
 @register.inclusion_tag('kguser/improvement_message.html')
 def improvement_message(obj):
@@ -34,7 +35,8 @@ def improvement_message(obj):
         return get_project_improvements(obj)
     if isinstance(obj, karaage.people.models.Person):
         return get_user_improvements(obj)
-    raise Exception("Unknown obj")
+    return None
+
 
 @register.filter
 def has_improvement(obj):
@@ -42,4 +44,4 @@ def has_improvement(obj):
         return has_project_improvements(obj)
     if isinstance(obj, karaage.people.models.Person):
         return has_user_improvements(obj)
-    raise Exception("Unknown obj")
+    return False

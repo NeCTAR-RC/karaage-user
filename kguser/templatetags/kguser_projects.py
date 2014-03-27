@@ -35,3 +35,7 @@ def project_leader(projects, person):
 @register.filter
 def project_member(projects, person):
     return projects.exclude(leaders=person.id)
+
+@register.filter
+def has_leader(project, person):
+    return project.leaders.filter(pk=person.pk).exists()

@@ -23,6 +23,7 @@ from django.utils.safestring import SafeString
 PROJECT_MSG = """You haven't chosen a project name. To help support new services.  We
 would like you to take a moment to choose one."""
 
+
 def is_renamed(project):
     """Return True if the project has been renamed as part of it's
     migration from Keystone.
@@ -35,12 +36,14 @@ def is_renamed(project):
     renamed, created = project.has_been_renamed.get_or_create()
     return renamed.renamed
 
+
 def check_project_name(project):
     if not is_renamed(project):
         return {'title': 'Project Name',
                 'action': 'Choose Project Name',
                 'action_url': reverse('confirm_project_name', kwargs={'project_id': project.pid}),
                 'description': PROJECT_MSG}
+
 
 def get_improvement(project):
     if check_project_name(project):

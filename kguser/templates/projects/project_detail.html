@@ -3,11 +3,14 @@
 {% load bootstrap3 %}
 {% load gravatar %}
 {% load kguser_messages %}
+{% load kguser_projects %}
 
 {% block title %}{{ project.name }} | Project{% endblock %}
 
 {% block content %}
-{% improvement_message project %}
+{% if project|has_leader:user %}
+  {% improvement_message project %}
+{% endif %}
 <h1>{{ project.name }}</h1>
 
 <nav class="navbar navbar-default" role="navigation">

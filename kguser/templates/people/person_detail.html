@@ -1,5 +1,7 @@
 {% extends "main.html" %}
 {% load gravatar %}
+{% load kguser_projects %}
+{% load kguser_people %}
 
 {% block title %}My Profile{% endblock %}
 
@@ -76,18 +78,40 @@
         <thead>
           <tr>
             <th>Project</th>
-            <th>Name</th>
             <th>Institute</th>
             <th>Leaders</th>
           </tr>
         </thead>
         <tbody>
-          {% for p in ua.project_list %}
+          {% for project in ua.project_list %}
           <tr class="{% cycle row1,row2 %}">
-            <td><a href="{{ p.get_absolute_url }}">{{ p.pid }}</a></td>
-            <td>{{ p.name|truncatewords:"10" }}</td>
-            <td>{{ p.institute }}</td>
-            <td>{% for l in p.leaders.all %}<a href="{{ l.get_absolute_url }}">{{ l }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+            <td>
+              <strong>
+                {% if project|can_view_project:request %}
+                <a title="{{ project.name }} ({{ project.pid }})"
+                   href="{{ project.get_absolute_url }}">
+                  {{ project.name }}
+                </a>
+                {% else %}
+                <span title="{{ project.name }} ({{ project.pid }})">
+                  {{ project.name }}
+                </span>
+                {% endif %}
+              </strong>
+            </td>
+            <td>{{ project.institute }}</td>
+            <td>
+              {% for leader in project.leaders.all %}
+              {% if leader|can_view_person:request %}
+              <a href="{{ leader.get_absolute_url }}">{{ leader }}</a>
+              {% else %}
+              <span title="{{ leader }} ({{ leader.institute }})">
+                {{ leader }}
+              </span>
+              {% endif %}
+              {% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </td>
           </tr>
           {% endfor %}
         </tbody>

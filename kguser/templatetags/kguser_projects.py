@@ -29,13 +29,17 @@ from kguser.project_improvements import (get_improvement as get_project_improvem
 register = template.Library()
 
 @register.filter
-def project_leader(projects, person):
+def lead_by(projects, person):
     return projects.filter(leaders=person.id)
 
 @register.filter
-def project_member(projects, person):
+def not_lead_by(projects, person):
     return projects.exclude(leaders=person.id)
 
 @register.filter
 def has_leader(project, person):
     return project.leaders.filter(pk=person.pk).exists()
+
+@register.filter
+def can_view_project(project, person):
+    return project.can_view(person)

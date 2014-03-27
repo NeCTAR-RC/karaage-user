@@ -44,7 +44,7 @@
       </ul>
     </div>
   </nav>
-  {% if ua.project_list|project_leader:user %}
+  {% if ua.project_list|lead_by:user %}
   <div class="panel-body">
     <h4>Projects you lead</h4>
   </div>
@@ -57,10 +57,14 @@
       </tr>
     </thead>
     <tbody>
-      {% for p in ua.project_list|project_leader:user %}
+      {% for p in ua.project_list|lead_by:user %}
       <tr class="{% cycle row1,row2 %}">
         <td>
-          <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
+          <strong>
+            <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">
+              {{ p.name }}
+            </a>
+          </strong>
           {% if user in p.leaders.all and p|has_improvement %}
           <span class="glyphicon glyphicon-exclamation-sign" title="This project has some pending action."></span>
           {% endif %}
@@ -75,7 +79,7 @@
 
   <hr/>
 
-  {% if ua.project_list|project_member:user %}
+  {% if ua.project_list|not_lead_by:user %}
   <div class="panel-body">
     <h4>Projects you work on</h4>
 
@@ -89,10 +93,14 @@
       </tr>
     </thead>
     <tbody>
-      {% for p in ua.project_list|project_member:user %}
+      {% for p in ua.project_list|not_lead_by:user %}
       <tr class="{% cycle row1,row2 %}">
         <td>
-          <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">{{ p.name }}</a>
+          <strong>
+            <a href="{{ p.get_absolute_url }}" title="{{ p.name }} ({{ p.pid }})">
+              {{ p.name }}
+            </a>
+          </strong>
         </td>
         <td>{{ p.start_date|date }}</td>
         <td>{{ p.end_date|date|default:"-" }}</td>

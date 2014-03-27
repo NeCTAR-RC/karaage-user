@@ -12,7 +12,7 @@
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
-    {% if project.is_active and user.get_profile in project.leaders.all %}
+    {% if project.is_active and user in project.leaders.all %}
     <ul class="nav navbar-nav navbar-right">
       <li>
         <a href="{% url 'kg_application_invite' project.pid %}">
@@ -31,28 +31,21 @@
   </div>
 </nav>
 
+
 <div class="row">
   <div class="col-md-6">
     <div class="container-fluid">
-      <h3>Details</h3>
       <table class="table">
-        <tr><td>ID:</td><td>{{ project.pid }}</td></tr>
-        <tr><td>Institute:</td><td>{{ project.institute }}</td></tr>
-        <tr><td>Start Date:</td><td>{{ project.start_date|date }}</td></tr>
-        {% if project.end_date %}
-        <tr><td>End Date:</td><td>{{ project.end_date|date }}</td></tr>
-        {% endif %}
-        <tr><td>Description:</td><td>{{ project.description }}</td></tr>
+        <tr><td>Institute:</td><td colspan="3">{{ project.institute }}</td></tr>
+        <tr><td>Start Date:</td><td>{{ project.start_date|date }}</td><td>End Date:</td><td>{{ project.end_date|date }}</td></tr>
         <tr><td>Approved:</td>
-        <td>
-          {% if project.is_approved %}
-          <span class="glyphicon glyphicon-ok-circle"></span>
-          {% else %}
-          <span class="glyphicon glyphicon-remove-circle"></span>
-          {% endif %}
-        </td>
-        </tr>
-        <tr>
+          <td>
+            {% if project.is_approved %}
+            <span class="glyphicon glyphicon-ok-circle"></span>
+            {% else %}
+            <span class="glyphicon glyphicon-remove-circle"></span>
+            {% endif %}
+          </td>
           <td>Active:</td>
           <td>
             {% if project.is_active %}
@@ -65,75 +58,91 @@
       </table>
     </div>
   </div>
-
   <div class="col-md-6">
-    <h3>Leaders</h3>
-    <div class="panel panel-default">
-    <table class="table">
-    <tbody>
-      {% for l in project.leaders.all %}
-      <tr>
-        <td>
-          <a href="{{ l.get_absolute_url }}">{% gravatar l.email 30 %} {{ l }}</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    </table>
+    <div class="container-fluid">
+      <p>
+        {{ project.description }}
+      </p>
     </div>
   </div>
 </div>
 
 
-{% if project.group.members.all %}
-<div class="container-fluid">
-  <h2>Users</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        {% if request.user.get_profile in project.leaders.all %}
-        <th></th>
-        {% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for person in project.group.members.all %}
-      <tr>
-        <td>
-          {% if user.is_authenticated %}
-          <a href="{{ person.get_absolute_url }}" title="{{ person.get_full_name }} ({{ person.username }})">
-            {% gravatar person.email 20 %}
-            {{ person.get_full_name }}
-            {% if not person.is_active %}
-            <strong>(disabled)</strong>
-            {% endif %}
-          </a>
-          {% else %}
-          {{ person.get_full_name }}
-          {% endif %}
-        </td>
-        {% if request.user.get_profile in project.leaders.all %}
-        <td class="text-right">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-              Action <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu text-left" role="menu">
-              <li>
-                <a class="deletelink" href="{% url 'kg_remove_project_member' project.pid person.username %}">
-                  Remove
-                </a>
-              </li>
-            </ul>
-          </div>
-        </td>
-        {% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endif %}
+<div class="row">
 
-{% endblock %}
+  <div class="col-md-6">
+    <div class="container-fluid">
+      {% if project.leaders.all %}
+      <h2>Leaders</h2>
+      <div class="panel panel-default">
+        <table class="table">
+          <tbody>
+            {% for l in project.leaders.all %}
+            <tr>
+              <td>
+                <a href="{{ l.get_absolute_url }}">{% gravatar l.email 30 %} {{ l }}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if project.group.members.all %}
+  <div class="col-md-6">
+    <div class="container-fluid">
+
+      <h2>Users</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            {% if request.user.get_profile in project.leaders.all %}
+            <th></th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in project.group.members.all %}
+          <tr>
+            <td>
+              {% if user.is_authenticated %}
+              <a href="{{ person.get_absolute_url }}" title="{{ person.get_full_name }} ({{ person.username }})">
+                {% gravatar person.email 20 %}
+                {{ person.get_full_name }}
+                {% if not person.is_active %}
+                <strong>(disabled)</strong>
+                {% endif %}
+              </a>
+              {% else %}
+              {{ person.get_full_name }}
+              {% endif %}
+            </td>
+            {% if request.user.get_profile in project.leaders.all %}
+            <td class="text-right">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                  Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu text-left" role="menu">
+                  <li>
+                    <a class="deletelink" href="{% url 'kg_remove_project_member' project.pid person.username %}">
+                      Remove
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</div>
+  {% endblock %}

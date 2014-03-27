@@ -20,6 +20,9 @@ import re
 from django.core.urlresolvers import reverse
 from django.utils.safestring import SafeString
 
+USERNAME_MSG = """You haven't chosen a username.  To help support new services.  We
+would like you to take a moment to choose one."""
+
 def valid_username(username):
     """Return True if the users username is a valid one."""
     return bool(re.match(r'^[a-z0-9][a-z0-9.\-_]{0,30}$', username))
@@ -27,10 +30,10 @@ def valid_username(username):
 def check_username(person):
 
     if not valid_username(person.username):
-        return {'title': 'Username compatibility',
-                'action': 'Change Username',
+        return {'title': 'Username',
+                'action': 'Choose Username',
                 'action_url': reverse('username_change'),
-                'description': 'Your username isn\'t compatible with some systems.  This can be fixed by changing your username.'}
+                'description': USERNAME_MSG}
 
 def get_improvement(person):
     if check_username(person):

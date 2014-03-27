@@ -3,21 +3,33 @@
 {% load filters %}
 {% load bootstrap3 %}
 
-{% block title %}Username Change{% endblock %}
+{% block title %}Choose a Username{% endblock %}
 
 {% block content %}
-<h2>Username Change</h2>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Choose a Username
+      </div>
+      <div class="panel-body">
 
-<p>To better support some services you are allowed one username
-change to a compatible name. Your current username is
-<b>{{user.username }}</b>.</p>
+        <p>To better support some new services.  We would like you to take a
+          moment to choose a more compatible username. Your current username is
+          <b>{{user.username }}</b>.</p>
 
-<form action="" role="form" method="post">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
-  {% bootstrap_field form.username %}
-  {% buttons %}
-  <button type="submit" class="btn btn-primary">Change my username</button>
-  {% endbuttons %}
-</form>
-{% endblock %}
+        <form action="" role="form" method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          {% bootstrap_field form.username %}
+          {% buttons %}
+          <button type="submit" class="btn btn-primary">Change my username</button>
+          {% endbuttons %}
+        </form>
+      </div>
+
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  {% endblock %}

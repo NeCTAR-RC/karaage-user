@@ -3,21 +3,31 @@
 {% load filters %}
 {% load bootstrap3 %}
 
-{% block title %}Project name confirmation{% endblock %}
+{% block title %}Choose a Project Name{% endblock %}
 
 {% block content %}
-<h2>Project Name Confirmation</h2>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Choose a Project Name
+      </div>
 
-<p>To better support some services you are allowed one opportunity 
-change to a compatible name.</p>
+      <div class="panel-body">
+        <p>To better support some new services.  We would like you to take a
+          moment to choose a more compatible project name.</p>
 
-<form action="" role="form" method="post">
-  {% csrf_token %}
-  {{ form.non_field_errors }}
-  {% bootstrap_field form.name %}
-  {% bootstrap_field form.pid %}
-  {% buttons %}
-  <button type="submit" class="btn btn-primary">Confirm project identifiers</button>
-  {% endbuttons %}
-</form>
-{% endblock %}
+        <form action="" role="form" method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          {% bootstrap_field form.name %}
+          {% bootstrap_field form.pid %}
+          {% buttons %}
+          <button type="submit" class="btn btn-primary">Confirm project identifiers</button>
+          {% endbuttons %}
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

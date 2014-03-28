@@ -71,4 +71,4 @@ if settings.DEBUG:
         (r'^karaage_graphs/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.GRAPH_ROOT}),
     )
 
-execfile("/etc/karaage/registration_urls.py")
+execfile("/etc/karaage/user_urls.py")

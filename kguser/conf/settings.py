@@ -1,4 +1,4 @@
-# Django settings for kgreg project.
+# Django settings for kguser project.
 from os import path
 from karaage.conf.settings import *
 TEMPLATE_DIRS += (

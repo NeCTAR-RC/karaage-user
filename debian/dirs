@@ -1,2 +1,3 @@
-/var/lib/karaage-registration
-/var/lib/karaage-registration/static
+etc/
+var/lib/karaage-user
+var/lib/karaage-user/static

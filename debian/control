@@ -1,17 +1,15 @@
-Source: karaage3-registration
+Source: karaage3-user
 Section: python
 Priority: optional
-Maintainer: Brian May <bam@debian.org>
-Build-Depends: debhelper (>=8.1.0), python (>= 2.6.6-3~)
+Maintainer: Russell Sim <russell.sim@gmail.com>
+Build-Depends: debhelper (>=8.1.0), python (>= 2.6.6-3~), python-setuptools, python-karaage, python-mock, python-factory-boy, python-django-gravatar2, python-django-bootstrap3, python-karaage-keystone
 Standards-Version: 3.9.4
 X-Python-Version: >= 2.6
 
-Package: karaage3-registration
+Package: python-karaage-user
 Architecture: all
-Homepage: https://github.com/Karaage-Cluster/karaage
-Depends: ${misc:Depends}, ${python:Depends}, karaage3 (>= 3.0.1)
+Homepage: https://github.com/NeCTAR-RC/karaage-user
+Depends: ${misc:Depends}, ${python:Depends}, python-karaage (>= 3.0.1)
 Suggests: libapache2-mod-wsgi, python-mysqldb | python-psycopg2
-Breaks: karaage-registration (<< 3.0.0)
-Replaces: karaage-registration (<< 3.0.0)
 Description: Registration interface to karaage
  This package contains the registration web interface to Karaage.

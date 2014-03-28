@@ -1,5 +1,13 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
+# Uncomment this to turn on verbose mode.
+# export DH_VERBOSE=1
+
 %:
 	dh $@ --with python2
+
+# Disabled until karaage package support running tests when building a
+# package https://github.com/Karaage-Cluster/karaage/issues/231
+# override_dh_auto_test:
+# 	./run_tests.sh

@@ -35,12 +35,16 @@ urlpatterns += patterns('',
     url(r'^persons/accounts/(?P<account_id>\d+)/makedefault/(?P<project_id>%s)/$' % settings.PROJECT_VALIDATION_RE,
         'kguser.views.make_project_default', name='kg_account_set_default'),
     url(r'^profile/', include(profile_urlpatterns)),
+    url(r'^projects/(?P<project_id>%s)/$' % settings.PROJECT_VALIDATION_RE,
+        'karaage.projects.views.project_detail', name='kg_project_detail'),
     url(r'^projects/(?P<project_id>%s)/confirm_name/' % settings.PROJECT_VALIDATION_RE,
         'kguser.views.confirm_project_name', name='confirm_project_name'),
+    url(r'^projects/$', 'kguser.views.profile', name='kg_user_profile_projects'),
     url(r'^xmlrpc/$', 'django_xmlrpc.views.handle_xmlrpc',),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^lookup/', include('ajax_select.urls')),
 )
+
 
 for urls in get_urls("urlpatterns"):
     urlpatterns += urls

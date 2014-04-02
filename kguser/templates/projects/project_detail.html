@@ -77,8 +77,12 @@
     <div class="container-fluid">
       {% if project.leaders.all %}
       <h2>Leaders</h2>
-      <div class="panel panel-default">
-        <table class="table">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
           <tbody>
             {% for l in project.leaders.all %}
             <tr>
@@ -89,7 +93,6 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
       {% endif %}
     </div>
   </div>

@@ -1,0 +1,22 @@
+{% extends "base_site.html" %}
+{% load url from future %}
+
+
+{% block title %}Applications{% endblock %}
+
+
+{% block content %}
+    {% if my_applications %}
+    <h3>Invitations</h3>
+    {% gen_table my_applications %}
+    {% endif %}
+
+    {% if requires_attention %}
+    <h3>Requires Attention</h3>
+    {% gen_table requires_attention %}
+    {% endif %}
+
+    {% if not my_applications and not requires_attention %}
+    <h3>You currently have no pending invitations.</h3>
+    {% endif %}
+{% endblock %}

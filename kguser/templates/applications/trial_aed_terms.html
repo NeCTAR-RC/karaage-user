@@ -1,0 +1,36 @@
+{% extends "forms.html" %}
+{% load forms %}
+{% load applications %}
+{% load bootstrap3 %}
+{% load kgterms %}
+
+
+{% block title %}Agree to terms and conditions{% endblock %}
+
+
+{% block content %}
+<h1>Agree to terms and conditions</h1>
+
+<form method="post" action="">{% csrf_token %}
+    <div>
+        {% if application.header_message %}{{ application.header_message|linebreaks }}{% endif %}
+    </div>
+    {% for form in forms %}
+    <div>
+        {% if form.errors or form.non_field_errors %}
+        <p class="errornote">Please correct the error(s) below.</p>
+        {% endif %}
+        <h4>{{ form.instance.terms.title }}</h4>
+        <textarea class="form-control" rows="15" readonly="readonly">{{ form.instance.terms.terms }}</textarea>
+        {% form_as_div form %}
+    </div>
+    {% empty %}
+    <div><p>You've already agreed to all current terms and conditions.</p></div>
+    {% endfor %}
+    <div>
+    {% buttons %}
+    {% application_actions %}
+    {% endbuttons %}
+    </div>
+</form>
+{% endblock %}

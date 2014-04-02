@@ -1,0 +1,21 @@
+{% autoescape off %}{% if receiver.get_short_name %}Hello {{ receiver.get_short_name }},
+{% else %}Hello,
+{% endif %}
+
+{% if not application.created_by %}Somebody has invited you to {{ application.info }}.
+{% elif application.created_by != receiver %}{{ application.created_by }} has invited you to {{ application.info }}.
+{% else %}You have started a new application to {{ application.info }}.
+{% endif %}
+{% if message %}{{ application.header_message }}
+
+{% endif %}To respond to this invitation, please visit the following URL:
+
+{{ link }}
+
+{% if is_secret %}This URL must remain secret, do not give it to anybody else.
+{% else %}If you are not already logged in you will be required to log in before using this link.
+{% endif %}
+This link will expire in 7 days.
+
+
+{% include "emails/email_footer.txt" %}{% endautoescape %}

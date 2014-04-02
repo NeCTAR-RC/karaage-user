@@ -1,0 +1,25 @@
+{% load url from future %}
+{% load applications %}
+{% load bootstrap3 %}
+
+{% for obj in object_list %}
+{% with app=obj.get_object %}
+<div class="panel panel-default"><div class="panel-body">
+    <div class="pull-left">
+    You've been invited to {{ app.info }}.
+    </div>
+    <div class="pull-right">
+        <form method="post" action="{% url 'kg_application_detail' app.id %}">{% csrf_token %}
+            {% buttons %}
+            <button type="submit" name="accept" class="btn btn-primary">
+                Accept
+            </button>
+            <button type="submit" name="ignore" class="btn">
+                Ignore
+            </button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div></div>
+{% endwith %}
+{% endfor %}

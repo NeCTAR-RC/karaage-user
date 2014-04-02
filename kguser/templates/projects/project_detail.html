@@ -18,7 +18,7 @@
     {% if project.is_active and user in project.leaders.all %}
     <ul class="nav navbar-nav navbar-right">
       <li>
-        <a href="{% url 'kg_application_invite' project.pid %}">
+        <a href="{% url 'kguser_invite_user' project.pid %}">
           <span class="glyphicon glyphicon-plus"></span>
           Invite User
         </a>

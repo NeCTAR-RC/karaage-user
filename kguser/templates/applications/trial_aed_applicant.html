@@ -1,0 +1,58 @@
+{% extends "forms.html" %}
+{% load bootstrap3 %}
+{% load applications %}
+
+{% block title %}Complete your user profile{% endblock %}
+
+{% block content %}
+<h1>Complete your user profile</h1>
+{% if form.has_errors or form.non_field_errors%}
+<p class="error">Please correct the error{{ form.errors|pluralize }} below.</p>
+{% endif %}
+{% if application.header_message %}{{ application.header_message|linebreaks }}{% endif %}
+<form method="post" class="form" role="form" action="">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <div class="row">
+    <div class="col-md-6">
+  {% bootstrap_field form.username %}
+    </div>
+    </div>
+  <div class="row">
+    <div class="col-md-6">
+      {% bootstrap_field form.title %}
+    </div>
+    <div class="col-md-6">
+  {% bootstrap_field form.full_name %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+  {% bootstrap_field form.short_name %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      {% bootstrap_field form.department %}
+    </div>
+    <div class="col-md-6">
+      {% bootstrap_field form.position %}
+    </div>
+  </div>
+  {% bootstrap_field form.supervisor %}
+  <div class="row">
+    <div class="col-md-6">
+      {% bootstrap_field form.telephone %}
+    </div>
+    <div class="col-md-6">
+      {% bootstrap_field form.mobile %}
+    </div>
+  </div>
+  {% bootstrap_field form.address %}
+  {% buttons %}
+  {% application_actions %}
+  {% endbuttons %}
+</form>
+{% endblock %}

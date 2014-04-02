@@ -17,13 +17,16 @@
 
 import re
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import (get_object_or_404, render_to_response, redirect,
+                              render)
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 
+from karaage.applications.models import Application
 from karaage.people.forms import PasswordChangeForm
+from karaage.people.models import Person
 from karaage.projects.models import Project
 from karaage.machines.models import Account
 from kguser.forms import UsernameChangeForm, ProjectNameForm
@@ -141,3 +144,33 @@ def profile(request):
 def index(request):
     return render_to_response('index.html', {},
                               context_instance=RequestContext(request))
+
+
+@login_required
+def invitation(request, application_id):
+    if request.method == 'POST':
+        my_applications = Application.objects.get_for_applicant(request.user)
+        application = get_object_or_404(my_applications, pk=application_id)
+        application = application.get_object()
+        if 'accept' in request.POST:
+            approver = Person.objects.filter(is_admin=True).first()
+            application.state = 'A'
+            application.approve(approver)
+            messages.success(request, "Invitation accepted.")
+            return redirect('kg_project_detail', application.project.pid)
+        else:
+            application.state = 'R'
+            application.decline()
+            messages.info(request, "Invitation ignored.")
+    return redirect('kg_application_list')
+
+
+@login_required
+def invitation_list(request):
+    my_applications = Application.objects.get_for_applicant(request.user)
+    invitations = (my_applications
+                   .filter(projectapplication__project__isnull=False))
+    return render(request,
+                    'applications/application_list.html',
+                    {'my_applications': invitations,
+                    'requires_attention': []})

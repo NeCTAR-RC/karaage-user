@@ -3,6 +3,9 @@ from django.conf import settings
 from django.contrib import admin
 from karaage.common import get_urls
 
+from kguser.applications.trial import register
+register()
+
 
 
 urlpatterns = patterns('',
@@ -42,6 +45,21 @@ urlpatterns += patterns('',
 for urls in get_urls("urlpatterns"):
     urlpatterns += urls
     del urls
+
+
+urlpatterns += patterns('',
+    url(r'^invitations/$', 'kguser.views.invitation_list', name='kg_application_list'),
+    url(r'^invitations/(\d+)/$', 'kguser.views.invitation', name='kg_application_detail'),
+    url(r'^invitations/claim/(?P<token>[0-9a-f]+)/$',
+        'kguser.applications.views.invitation_token', name='kg_application_unauthenticated'),
+    url(r'^invitations/claim/(?P<token>[0-9a-f]+)/(?P<state>[-.\w]+)/$',
+        'kguser.applications.views.invitation_token', name='kg_application_unauthenticated'),
+    url(r'^invitations/claim/(?P<token>[0-9a-f]+)/(?P<state>[-.\w]+)/(?P<label>[-.\w]+)/$',
+        'kguser.applications.views.invitation_token', name='kg_application_unauthenticated'),
+    url(r'^projects/(?P<project_id>%s)/invite_user/$'
+        % settings.PROJECT_VALIDATION_RE,
+        'kguser.applications.views.send_invitation', name='kguser_invite_user'),
+)
 
 if settings.DEBUG:
     urlpatterns += patterns('',

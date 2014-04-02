@@ -1,0 +1,34 @@
+{% extends "forms.html" %}
+{% load forms %}
+{% load applications %}
+{% load bootstrap3 %}
+
+
+{% block title %}Introduction{% endblock %}
+
+
+{% block content %}
+<h1>Activate your account</h1>
+
+<form method="post" action="">{% csrf_token %}
+    <div>
+    {% if application.applicant.get_short_name %}
+    <p>Hi {{ application.applicant.get_short_name }},</p>
+    {% endif %}
+
+    <p>You've just logged on to our cloud information system.</p>
+
+    <p>We need some information from you before we can enable your account.</p>
+
+    <p>You need to complete the following steps:</p>
+
+    {% application_state application %}
+
+    <p>Click "Next" to begin.</p>
+
+    {% buttons %}
+    {% application_actions %}
+    {% endbuttons %}
+    </div>
+</form>
+{% endblock %}

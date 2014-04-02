@@ -1,0 +1,29 @@
+{% extends "forms.html" %}
+{% load bootstrap3 %}
+
+{% block title %}Application{% endblock %}
+
+{% block content %}
+
+<div class="row">
+<div class="col-md-6 col-md-offset-3 panel">
+    <div class="panel-body">
+    <h3 class="panel-title">Logged in as:</h3>
+    <h4>{{ person }}</h4>
+    <h5>{{ person.username }}</h5>
+    <p>Not you? <a href="{% url 'logout_redirect' %}?next={{ request.path }}">Switch user</a>.</p>
+
+    <form method="post" action="">{% csrf_token %}
+        {% for field in form %}{{ field.as_hidden }}
+        {% endfor %}
+        <div>
+            <input type="hidden" name="steal" value="yes" />
+            {% buttons %}
+            <button type="submit" class="btn btn-primary">Continue to application</button>
+            {% endbuttons %}
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+{% endblock %}

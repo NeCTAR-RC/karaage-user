@@ -36,9 +36,16 @@
           <a class="navbar-brand" href="{% url 'index' %}">{% block branding %}Karaage{% endblock %}</a>
         </div>
         <div class="navbar-collapse collapse">
+          {% if user.is_active %}
           <ul class="nav navbar-nav">
             <li><a href="{% url 'kg_user_profile_projects' %}">Projects</a></li>
           </ul>
+          <ul class="nav navbar-nav">
+              <li><a href="{% url 'kg_application_list' %}">
+                  Invitations{% if pending_applications %} <span class="badge btn-primary">{{ pending_applications }}</span>{% endif %}
+              </a></li>
+          </ul>
+          {% endif %}
           <ul class="nav navbar-nav navbar-right">
             {% block userlinks %}
             <li><a href="{% url 'kg_user_profile' %}">

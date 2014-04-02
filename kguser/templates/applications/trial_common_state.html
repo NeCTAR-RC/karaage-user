@@ -1,0 +1,14 @@
+{% if application.state = 'A' %}
+<ul><li>Application is Archived.</li></ul>
+{% elif application.state = 'DUP' %}
+<ul><li>Applicant is already a registered user. The system administrator will
+    have to resolve this. Or the application can be cancelled.</li></ul>
+{% elif application.state = 'R' %}
+<ul><li>Application was cancelled or declined.</li></ul>
+{% else %}
+<ul>
+    <li>Agree to the terms and conditions</li>
+    <li>Complete your user profile</li>
+    <li>Set a password for your new accounts</li>
+</ul>
+{% endif %}

@@ -1,0 +1,38 @@
+<div class="submit-row">
+    {{ extra }}
+    {% if 'prev' in actions %}
+    <button type="submit" name="prev" class="btn">
+        &lt; Previous
+    </button>
+    {% endif %}
+    {% if 'cancel' in actions %}
+    <button type="submit" name="cancel" class="btn btn-danger">
+        Decline/Cancel Application
+    </button>
+    {% endif %}
+    {% if 'reopen' in actions %}
+    <button type="submit" name="reopen" class="btn float-left">
+        Reopen
+    </button>
+    {% endif %}
+    {% if 'next' in actions %}
+    <button type="submit" name="next" class="btn btn-primary">
+        Next &gt;
+    </button>
+    {% endif %}
+    {% if 'submit' in actions %}
+    <button type="submit" name="submit" class="btn btn-primary">
+        Submit
+    </button>
+    {% endif %}
+    {% if 'approve' in actions %}
+    <button type="submit" name="approve" class="btn btn-primary">
+        Approve
+    </button>
+    {% endif %}
+    {% if 'archive' in actions %}
+    <button type="submit" name="archive" class="btn btn-primary">
+        Archive
+    </button>
+    {% endif %}
+</div>

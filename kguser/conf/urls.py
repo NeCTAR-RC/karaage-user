@@ -22,6 +22,7 @@ profile_urlpatterns = patterns('',
     url(r'^edit/$', 'karaage.people.views.profile.edit_profile', name='kg_profile_edit'),
     url(r'^login/(?P<username>%s)/$' % settings.USERNAME_VALIDATION_RE, 'karaage.people.views.profile.login', name="login"),
     url(r'^logout/$', 'karaage.common.views.profile.logout', name='logout'),
+    url(r'^logout_redirect/$', 'django.contrib.auth.views.logout', name='logout_redirect'),
 )
 
 for urls in get_urls("profile_urlpatterns"):

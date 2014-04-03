@@ -48,6 +48,7 @@ def trial_application_get_or_create(applicant_id):
         application = applications[0].get_object()
     except IndexError:
         application = TrialProjectApplication(name="Trial project")
+        application.description = "%s's trial project." % applicant.full_name
         application.applicant = applicant
         application.institute_id = applicant.institute.pk
         application.make_leader = False

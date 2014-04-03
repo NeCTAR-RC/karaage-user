@@ -20,7 +20,7 @@
   </head>
   {% load i18n %}
 
-  <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+  <body {% block body_attrs %}{% endblock %} class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
     {% if not is_popup %}
     <!-- Static navbar -->
     <div id="global-nav" class="navbar navbar-default navbar-static-top" role="navigation">

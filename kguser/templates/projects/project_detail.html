@@ -106,7 +106,7 @@
         <thead>
           <tr>
             <th>Name</th>
-            {% if request.user.get_profile in project.leaders.all %}
+            {% if request.user in project.leaders.all %}
             <th></th>
             {% endif %}
           </tr>
@@ -127,7 +127,7 @@
               {{ person.get_full_name }}
               {% endif %}
             </td>
-            {% if request.user.get_profile in project.leaders.all %}
+            {% if request.user in project.leaders.all %}
             <td class="text-right">
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">

@@ -129,6 +129,7 @@
             </td>
             {% if request.user in project.leaders.all %}
             <td class="text-right">
+              {% if request.user != person %}
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
                   Action <span class="caret"></span>
@@ -141,6 +142,7 @@
                   </li>
                 </ul>
               </div>
+              {% endif %}
             </td>
             {% endif %}
           </tr>

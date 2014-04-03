@@ -1,6 +1,5 @@
 from django.conf.urls import *
 from django.conf import settings
-from django.contrib import admin
 from karaage.common import get_urls
 
 from kguser.applications.trial import register

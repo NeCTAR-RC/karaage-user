@@ -1,3 +1,4 @@
+
 {% extends "main.html" %}
 {% load gravatar %}
 {% load kguser_projects %}
@@ -50,14 +51,14 @@
     <nav id="local-nav" class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse"
-                  data-target="#local-nav .navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <span class="navbar-brand">
+          <!--button type="button" class="navbar-toggle" data-toggle="collapse"
+              data-target="#local-nav .navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button-->
+          <span class="navbar-brand" title="Their username">
             {{ ua.username }}
           </span>
         </div>

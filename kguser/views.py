@@ -147,7 +147,11 @@ def index(request):
 
 
 @login_required
-def invitation(request, application_id):
+def invitation(request, application_id, state=None, label=None):
+    if request.user.date_approved is None:
+        from karaage.applications.views.common import application_detail
+        return application_detail(request, application_id, state=state, label=label)
+
     if request.method == 'POST':
         my_applications = Application.objects.get_for_applicant(request.user)
         application = get_object_or_404(my_applications, pk=application_id)

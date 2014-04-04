@@ -12,7 +12,7 @@ SITE_ID = 2
 STATIC_ROOT = '/var/lib/karaage-user/static'
 STATIC_URL = '/kguser_media/'
 
-LOGIN_URL = '/users/accounts/login/'
+LOGIN_URL = 'kgauth_login_select'
 
 ALLOW_REGISTRATIONS = False
 
@@ -29,7 +29,7 @@ BOOTSTRAP3 = {
     'set_required': True,
 }
 
-INSTALLED_APPS = INSTALLED_APPS + ('kguser', 'bootstrap3', 'django_gravatar',)
+INSTALLED_APPS = INSTALLED_APPS + ('kgauth', 'kguser', 'bootstrap3', 'django_gravatar',)
 
 import sys
 if 'test' in sys.argv:

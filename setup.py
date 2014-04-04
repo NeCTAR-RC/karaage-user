@@ -66,6 +66,7 @@ setup(
         "Django >= 1.6",
         "South >= 0.7",
         "karaage >= 3.0",
+        "karaage-auth",
         "django_gravatar2",
         "django_bootstrap3",
     ],

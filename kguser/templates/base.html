@@ -49,17 +49,15 @@
           <ul class="nav navbar-nav navbar-right">
             {% block userlinks %}
             <li><a href="{% url 'kg_user_profile' %}">
-              {% gravatar user.email 20 %}
               {% if user.is_authenticated %}
+              {% gravatar user.email 20 %}
               {% filter force_escape %}{% firstof user.get_short_name user.username %}{% endfilter %}
-              {% else %}
-              {% trans 'Guest' %}
               {% endif %}
             </a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
             {% else %}
-            <li><a href="{% url 'login' %}{% url_with_param next=request.path %}">{% trans 'Log in' %}</a></li>
+            <li><a href="{% url 'kgauth_login_select' %}">{% trans 'Log in' %}</a></li>
             {% endif %}
             {% endblock %}
           </ul>

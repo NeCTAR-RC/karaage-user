@@ -5,21 +5,18 @@
 {% for obj in object_list %}
 {% with app=obj.get_object %}
 <div class="panel panel-default"><div class="panel-body">
-    <div class="pull-left">
     You've been invited to {{ app.info }}.
-    </div>
-    <div class="pull-right">
-        <form method="post" action="{% url 'kg_application_detail' app.id %}">{% csrf_token %}
-            {% buttons %}
-            <button type="submit" name="accept" class="btn btn-primary">
-                Accept
-            </button>
-            <button type="submit" name="ignore" class="btn">
-                Ignore
-            </button>
-            {% endbuttons %}
-        </form>
-    </div>
-</div></div>
+    <form class="form-inline pull-right" method="post" action="{% url 'kg_application_detail' app.id %}">{% csrf_token %}
+      {% buttons %}
+      <button type="submit" name="accept" class="btn btn-primary btn-sm">
+        Accept
+      </button>
+      <button type="submit" name="ignore" class="btn btn-sm">
+        Ignore
+      </button>
+      {% endbuttons %}
+    </form>
+  </div>
+</div>
 {% endwith %}
 {% endfor %}

@@ -23,18 +23,34 @@ SOUTH_TESTS_MIGRATE = False
 
 # DATASTORES
 
-DATASTORES = {
-    'ldap' : [
+MACHINE_CATEGORY_DATASTORES = {
+    'default' : [
         {
             'DESCRIPTION': 'Default LDAP datastore',
-            'ENGINE': 'karaage.datastores.ldap.AccountDataStore',
+            'ENGINE': 'kgkeystone.datastore.ldap.MachineCategoryDataStore',
             'LDAP': 'default',
             'ACCOUNT': 'karaage.datastores.ldap_schemas.openldap_account',
-            'GROUP': 'karaage.datastores.ldap_schemas.openldap_group',
+            'GROUP': 'karaage.datastores.ldap_schemas.openldap_account_group',
             'PRIMARY_GROUP': "institute",
             'DEFAULT_PRIMARY_GROUP': "dummy",
-            'HOME_DIRECTORY': "/vpac/%(default_project)s/%(uid)s",
-            'LOCKED_SHELL': '/usr/local/sbin/insecure',
+            'HOME_DIRECTORY': "/home/%(uid)s",
+            'LOCKED_SHELL': "/usr/local/sbin/locked",
+        }, {
+            'DESCRIPTION': 'Keystone datastore',
+            'ENGINE': 'kgkeystone.datastore.keystone.MachineCategoryDataStore',
+            'VERSION': 'v3',
+            'ENDPOINT': 'http://localhost:35357/v3/',
+            'TOKEN': 'ADMIN',
+
+            'LEADER_ROLE': 'TenantManager',
+            'MEMBER_ROLE': 'Member',
+
+            'HOST': '127.0.0.1',
+            'PORT': '35357',
+            'PROTOCOL': 'http',
+            'PROJECT_NAME': 'admin',
+            'USERNAME': 'karaage',
+            'PASSWORD': 'test',
         },
     ],
     'dummy' : [

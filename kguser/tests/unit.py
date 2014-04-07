@@ -24,13 +24,13 @@ from fixtures import MachineCategoryFactory
 class TestCase(BaseTestCase):
     def setUp(self):
         super(TestCase, self).setUp()
-        self.machine_category = MachineCategoryFactory(datastore='mock')
         self.resetDatastore()
+        self.machine_category = MachineCategoryFactory(datastore='mock')
 
     def tearDown(self):
         super(TestCase, self).tearDown()
-        datastores._DATASTORES['mock'] = []
+        datastores._MACHINE_CATEGORY_DATASTORES['mock'] = []
 
     def resetDatastore(self):
         self.datastore = Mock()
-        datastores._DATASTORES['mock'] = [self.datastore]
+        datastores._MACHINE_CATEGORY_DATASTORES['mock'] = [self.datastore]

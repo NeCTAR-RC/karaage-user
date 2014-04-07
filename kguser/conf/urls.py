@@ -75,4 +75,7 @@ if settings.DEBUG:
         (r'^karaage_graphs/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.GRAPH_ROOT}),
     )
 
-execfile("/etc/karaage/user_urls.py")
+try:
+    execfile("/etc/karaage/user_urls.py")
+except IOError:
+    pass

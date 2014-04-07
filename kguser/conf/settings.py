@@ -1,6 +1,7 @@
 # Django settings for kguser project.
 from os import path
-from karaage.conf.settings import *
+from karaage.conf.defaults import *
+
 TEMPLATE_DIRS += (
     '/usr/share/kguser/templates',
 )
@@ -36,6 +37,7 @@ if 'test' in sys.argv:
     execfile(path.join(path.dirname(__file__), "test_settings.py"))
 else:
     execfile("/etc/karaage/user_settings.py")
+DEFAULT_FROM_EMAIL = ACCOUNTS_EMAIL
 
 
 if DEBUG:

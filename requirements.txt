@@ -1,0 +1,9 @@
+Django >= 1.6
+django_bootstrap3
+django_gravatar2
+-e git://github.com/NeCTAR-RC/karaage.git#egg=karaage
+-e git://github.com/NeCTAR-RC/karaage-auth.git#egg=karaage-auth
+-e git://github.com/NeCTAR-RC/karaage-keystone.git#egg=karaage-keystone
+-e git://github.com/NeCTAR-RC/karaage-terms.git#egg=karaage-terms
+python > 2.4
+South >= 0.7
